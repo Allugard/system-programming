@@ -30,8 +30,7 @@ public class Graph {
     public void printGraph(State s,Signal ... signals){
         String res="";
         for (int i = 0; i <signals.length ; i++) {
-            res+=signals[i]+": ";
-            res+=i+1+")"+s+"->";
+            res+=i+1+")"+signals[i]+": "+s+"->";
             State buf=s;
             s=hashMaps[s.ordinal()].get(signals[i]);
             if(s==null){
