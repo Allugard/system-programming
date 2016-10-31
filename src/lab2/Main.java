@@ -82,12 +82,11 @@ public class Main {
 
         lexNodes[18].setToken(Token.sem);
 
-        //if c<>0thenb:=(2*a+c)*2*a;
         if(LexNode.checkRightBraces(lexNodes)) {
             lexNodes[0].printTree();
             System.out.println();
         } else{
-            System.out.println("Неправильное кол-во скобок");
+            System.out.println("Wrong number of brackets");
         }
 
         Graph graphs=new Graph(Signal.values().length);
