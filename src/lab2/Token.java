@@ -9,13 +9,13 @@ public enum Token {
     rightParenthesis{
         @Override
         public String toString() {
-            return "(";
+            return ")";
         }
     },
     leftParenthesis{
         @Override
         public String toString() {
-            return ")";
+            return "(";
         }
     },
     If{

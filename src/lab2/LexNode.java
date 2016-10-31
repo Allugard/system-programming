@@ -91,8 +91,8 @@ public class LexNode {
     public static boolean checkRightBraces(LexNode[] lexNodes) {
         int i=0;
         for (int j = 0; j <lexNodes.length ; j++) {
-            if(lexNodes[j].getToken()==Token.leftParenthesis) i--;
-            if(lexNodes[j].getToken()==Token.rightParenthesis) i++;
+            if(lexNodes[j].getToken()==Token.leftParenthesis) i++;
+            if(lexNodes[j].getToken()==Token.rightParenthesis) i--;
             if (i<0) return false;
         }
         if (i!=0) return false;

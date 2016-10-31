@@ -42,7 +42,7 @@ public class Main {
 
 
 
-        lexNodes[7].setToken(Token.rightParenthesis);
+        lexNodes[7].setToken(Token.leftParenthesis);
         lexNodes[7].setNextNode(lexNodes[8]);
 
         lexNodes[8].setToken(Token.cnst);
@@ -63,7 +63,7 @@ public class Main {
         lexNodes[12].setLex('c');
         lexNodes[12].setNextNode(lexNodes[13]);
 
-        lexNodes[13].setToken(Token.leftParenthesis);
+        lexNodes[13].setToken(Token.rightParenthesis);
         lexNodes[13].setNextNode(lexNodes[14]);
 
         lexNodes[14].setToken(Token.mul);
