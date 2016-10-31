@@ -91,7 +91,7 @@ public class Main {
         }
 
         Graph graphs=new Graph(Signal.values().length);
-        graphs.printGraph(State.s1, Signal.sg2,Signal.sg3,Signal.dlm,Signal.sg1);
+        graphs.printGraph(State.s1, Signal.sg2,Signal.sg3,Signal.sg6,Signal.sg4,Signal.sg5,Signal.cfr);
 
 
 

@@ -31,9 +31,11 @@ public class Graph {
         String res="";
         for (int i = 0; i <signals.length ; i++) {
             res+=i+1+")"+s+"->";
+            State buf=s;
             s=hashMaps[s.ordinal()].get(signals[i]);
             if(s==null){
-                res+="На этом шаге по этому сигналу не переходит+\n";
+                s=buf;
+                res+=s+" - На этом шаге по этому сигналу не переходит\n";
             }else {
                 res+=s+"\n";
             }
