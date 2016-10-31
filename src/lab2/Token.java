@@ -6,12 +6,37 @@ import jdk.nashorn.internal.ir.IfNode;
  * Created by 111 on 31.10.2016.
  */
 public enum Token {
+    rightParenthesis{
+        @Override
+        public String toString() {
+            return "(";
+        }
+    },
+    leftParenthesis{
+        @Override
+        public String toString() {
+            return ")";
+        }
+    },
     If{
         @Override
         public String toString() {
             return "if ";
         }
-    },Then,Else,var,cnst,
+    },
+    Then{
+        @Override
+        public String toString() {
+            return " then ";
+        }
+    },
+    Else{
+        @Override
+        public String toString() {
+            return " else ";
+        }
+    },
+    var,cnst,
     nEqual{
         @Override
         public String toString() {
@@ -21,7 +46,7 @@ public enum Token {
     ass{
         @Override
         public String toString() {
-            return "=";
+            return ":=";
         }
     },
     mul{
@@ -46,6 +71,12 @@ public enum Token {
         @Override
         public String toString() {
             return "-";
+        }
+    },
+    sem{
+        @Override
+        public String toString() {
+            return ";";
         }
     };
 
