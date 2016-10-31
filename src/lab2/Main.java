@@ -1,5 +1,8 @@
 package lab2;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by 111 on 31.10.2016.
  */
@@ -9,7 +12,7 @@ public class Main {
 
 
 
-        LexNode [] lexNodes= new LexNode[20];
+        LexNode [] lexNodes= new LexNode[19];
         for (int i = 0; i <lexNodes.length ; i++) {
             lexNodes[i]=new LexNode();
         }
@@ -82,9 +85,14 @@ public class Main {
         //if c<>0thenb:=(2*a+c)*2*a;
         if(LexNode.checkRightBraces(lexNodes)) {
             lexNodes[0].printTree();
+            System.out.println();
         } else{
             System.out.println("Неправильное кол-во скобок");
         }
+
+        Graph graphs=new Graph(Signal.values().length);
+        graphs.printGraph(State.s1, Signal.sg2,Signal.sg3,Signal.dlm,Signal.sg1);
+
 
 
     }
