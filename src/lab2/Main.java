@@ -89,8 +89,8 @@ public class Main {
             System.out.println("Wrong number of brackets");
         }
 
-        Graph graphs=new Graph(Signal.values().length);
-        graphs.printGraph(State.s1, Signal.sg2,Signal.sg3,Signal.sg6,Signal.sg4,Signal.sg5,Signal.cfr);
+        Graph graphs=new Graph(State.values().length);
+        graphs.printGraph(State.s1, Signal.sg2, Signal.sg3,Signal.dlm,Signal.cfr,Signal.cfr);
 
 
 
