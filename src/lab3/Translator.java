@@ -9,7 +9,7 @@ public class Translator {
 
     }
 
-    public void analysis(String input){
+    public void lexicalAnalysis(String input){
         int position=0;
         while (position<input.length()){
             boolean charact=false;
@@ -83,6 +83,8 @@ public class Translator {
             }
         }
     }
+
+
 
     public void printTable(){
         System.out.println(table);
