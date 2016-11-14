@@ -9,7 +9,7 @@ import lab3.Translator;
  */
 public class Main {
     public static void main(String[] args)  {
-        String input="b+c:=(2*a+c)*a2*a;";
+        String input="b:=(2*a+c)*a;";
         Translator translator=new Translator();
         translator.lexicalAnalysis(input);
         translator.printTable();
