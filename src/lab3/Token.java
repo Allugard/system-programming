@@ -10,5 +10,7 @@ public enum  Token {
         public String toString() {
             return "Undefined operator";
         }
-    }
+    },
+    LeftParenthesis,RightParenthesis,EndStatement,
+    Assign
 }

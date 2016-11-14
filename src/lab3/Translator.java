@@ -1,10 +1,20 @@
 package lab3;
 
+import lab4.AssignException;
+import lab4.ParenthesisException;
+import lab4.StatementException;
+import lab4.UndefinedOperatorException;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by 111 on 01.11.2016.
  */
 public class Translator {
     Table table=new Table();
+    String message="";
     public Translator() {
 
     }
@@ -70,7 +80,7 @@ public class Translator {
 
             if(charact){
                 int pos=position+1;
-                while (Lexeme.VALIDSYMBOLS.contains((Character.toString(input.charAt(pos))))){
+                while (Lexeme.VALIDSYMBOLS.contains((Character.toString(input.charAt(pos))))||Lexeme.VALIDNUMBERS.contains((Character.toString(input.charAt(pos))))){
                     pos++;
                 }
                 String buf=input.substring(position,pos);
@@ -83,10 +93,50 @@ public class Translator {
             }
         }
     }
+    public void syntaxAnalysis()  {
+        if(table.checkUndefinedOprerator()){
+            try{
+                throw new UndefinedOperatorException();
+            } catch (UndefinedOperatorException e) {
+                e.printStackTrace();
+            }
+            message+=table.getUndefinedOperator();
+            return;
+        }
+
+        if(table.checkParenthesis()){
+            try {
+                throw new ParenthesisException();
+            } catch (ParenthesisException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(table.getLexNodes().get(1).getValue().compareTo(":=")!=0){
+            try {
+                throw new AssignException();
+            } catch (AssignException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(table.chechRightStatement()){
+            try {
+                throw new StatementException();
+            } catch (StatementException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 
 
     public void printTable(){
         System.out.println(table);
     }
+
+    public void printMessage() {
+        System.out.println(message);
+    }
+
 }

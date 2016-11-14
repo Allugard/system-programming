@@ -30,4 +30,68 @@ public class Table {
         output+="\n}";
         return output;
     }
+
+    public List<LexNode> getLexNodes() {
+        return lexNodes;
+    }
+
+    public void setLexNodes(List<LexNode> lexNodes) {
+        this.lexNodes = lexNodes;
+    }
+
+    public boolean checkUndefinedOprerator() {
+        boolean bool=false;
+        for (LexNode lexNode:lexNodes) {
+            if (lexNode.getToken()==Token.UNDEFINEDOPERATOR){
+                bool=true;
+                break;
+            }
+        }
+        return bool;
+    }
+
+    public String getUndefinedOperator() {
+        String undefinedOperator="";
+        for (LexNode lexNode:lexNodes) {
+            if (lexNode.getToken()==Token.UNDEFINEDOPERATOR){
+                undefinedOperator+=lexNode+"\n";
+            }
+        }
+        return undefinedOperator;
+    }
+
+    public boolean checkParenthesis() {
+        boolean bool=false;
+        int i=0;
+        for (LexNode lexNode:lexNodes) {
+            if (lexNode.getSubToken()==Token.LeftParenthesis) i++;
+            if (lexNode.getSubToken()==Token.RightParenthesis) i--;
+            if(i<0){
+                bool=true;
+                break;
+            }
+        }
+        if (i!=0){
+            bool=true;
+        }
+        return bool;
+    }
+
+    public boolean chechRightStatement() {
+        boolean bool=false;
+        for (int i = 1; i <lexNodes.size()-1; i++) {
+            if (lexNodes.get(i).getToken()==Token.CONSTANT||lexNodes.get(i).getToken()==Token.VARIABLE){
+                if((lexNodes.get(i-1).getToken()!=Token.OPERATOR&&lexNodes.get(i-1).getToken()!=Token.SEPARATOR) ||
+                        (lexNodes.get(i+1).getToken()!=Token.OPERATOR&&lexNodes.get(i+1).getToken()!=Token.SEPARATOR )){
+                    bool=true;
+                    break;
+                }
+            }
+           /* if(lexNodes.get(i).getToken()==Token.OPERATOR){
+                if(lexNodes.get(i-1).getToken()!=(Ti))
+            }*/
+        }
+
+        return bool;
+    }
 }

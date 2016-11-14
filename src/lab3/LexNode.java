@@ -6,10 +6,28 @@ package lab3;
 public class LexNode {
     private String value;
     private Token token;
+    private Token subToken;
 
     public LexNode(String value, Token token) {
         this.value = value;
         this.token = token;
+        switch (token){
+            case SEPARATOR: switch (value) {
+                case "(":
+                    subToken = Token.LeftParenthesis;
+                    break;
+                case ")":
+                    subToken = Token.RightParenthesis;
+                    break;
+                case ";":
+                    subToken = Token.EndStatement;
+                    break;
+            } break;
+            case OPERATOR: switch (value){
+                case ":=":subToken=Token.Assign;
+                    break;
+            }
+        }
     }
 
     public String getValue() {
@@ -26,6 +44,10 @@ public class LexNode {
 
     public void setToken(Token token) {
         this.token = token;
+    }
+
+    public Token getSubToken() {
+        return subToken;
     }
 
     @Override
