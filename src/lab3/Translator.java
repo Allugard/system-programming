@@ -1,9 +1,6 @@
 package lab3;
 
-import lab4.AssignException;
-import lab4.ParenthesisException;
-import lab4.StatementException;
-import lab4.UndefinedOperatorException;
+import lab4.*;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -94,38 +91,57 @@ public class Translator {
         }
     }
     public void syntaxAnalysis()  {
+        boolean successfully=true;
         if(table.checkUndefinedOprerator()){
             try{
                 throw new UndefinedOperatorException();
             } catch (UndefinedOperatorException e) {
-                e.printStackTrace();
+                message+="Undefined operators: \n";
             }
             message+=table.getUndefinedOperator();
-            return;
+            successfully=false;
         }
 
         if(table.checkParenthesis()){
             try {
                 throw new ParenthesisException();
             } catch (ParenthesisException e) {
-                e.printStackTrace();
+                message+="Wrong numbers of parenthesis \n";
             }
+            successfully=false;
         }
 
         if(table.getLexNodes().get(1).getValue().compareTo(":=")!=0){
             try {
                 throw new AssignException();
             } catch (AssignException e) {
-                e.printStackTrace();
+                message+="Expected variable in left part of expression \n";
             }
+            successfully=false;
+        }
+
+        if(table.getLexNodes().get(table.getLexNodes().size()-1).getSubToken()!=Token.EndStatement){
+            try {
+                throw new EndStatementException();
+            } catch (EndStatementException e) {
+                message+="Expected ';' in the end of expression \n";
+            }
+            successfully=false;
+
         }
 
         if(table.chechRightStatement()){
             try {
                 throw new StatementException();
             } catch (StatementException e) {
-                e.printStackTrace();
+                message+="Wrong expression \n";
             }
+            successfully=false;
+        }
+        if (successfully){
+            message+="Syntax analysis successfully!!! \n";
+        }else {
+            message+="Syntax analysis failed!!! \n";
         }
     }
 

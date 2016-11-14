@@ -81,8 +81,8 @@ public class Table {
         boolean bool=false;
         for (int i = 1; i <lexNodes.size()-1; i++) {
             if (lexNodes.get(i).getToken()==Token.CONSTANT||lexNodes.get(i).getToken()==Token.VARIABLE){
-                if((lexNodes.get(i-1).getToken()!=Token.OPERATOR&&lexNodes.get(i-1).getToken()!=Token.SEPARATOR) ||
-                        (lexNodes.get(i+1).getToken()!=Token.OPERATOR&&lexNodes.get(i+1).getToken()!=Token.SEPARATOR )){
+                if((lexNodes.get(i-1).getToken()!=Token.OPERATOR&&lexNodes.get(i-1).getSubToken()!=Token.LeftParenthesis) ||
+                        (lexNodes.get(i+1).getToken()!=Token.OPERATOR&&lexNodes.get(i+1).getSubToken()!=Token.RightParenthesis&&lexNodes.get(i+1).getSubToken()!=Token.EndStatement )){
                     bool=true;
                     break;
                 }
