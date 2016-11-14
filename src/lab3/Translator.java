@@ -49,7 +49,11 @@ public class Translator {
                     }
                     position+=2;
                 }else {
-                    table.add(Token.OPERATOR,Character.toString(ch));
+                    if(Lexeme.checkOperator(Character.toString(ch))) {
+                        table.add(Token.OPERATOR, Character.toString(ch));
+                    }else {
+                        table.add(Token.UNDEFINEDOPERATOR,Character.toString(ch));
+                    }
                     position++;
                 }
             }
@@ -80,7 +84,7 @@ public class Translator {
         }
     }
 
-    public void printResult(){
+    public void printTable(){
         System.out.println(table);
     }
 }

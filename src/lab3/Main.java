@@ -8,7 +8,7 @@ public class Main {
         String input="if c<>0then b:=(2*a+c)*2*a;";
         Translator translator=new Translator();
         translator.analysis(input);
-        translator.printResult();
+        translator.printTable();
 
     }
 
