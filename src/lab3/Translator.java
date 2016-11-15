@@ -1,10 +1,6 @@
 package lab3;
 
-import lab4.*;
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.List;
+import lab4.Exception.*;
 
 /**
  * Created by 111 on 01.11.2016.
