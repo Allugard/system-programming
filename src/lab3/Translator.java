@@ -139,7 +139,7 @@ public class Translator {
             successfully=false;
         }
         if (successfully){
-            message+="Syntax analysis successfully!!! \n";
+            message+="Syntax analysis succeeded!!! \n";
         }else {
             message+="Syntax analysis failed!!! \n";
         }
