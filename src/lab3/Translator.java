@@ -73,7 +73,7 @@ public class Translator {
 
             if(charact){
                 int pos=position+1;
-                while (Lexeme.VALIDSYMBOLS.contains((Character.toString(input.charAt(pos))))||Lexeme.VALIDNUMBERS.contains((Character.toString(input.charAt(pos))))){
+                while (input.length()>pos&&(Lexeme.VALIDSYMBOLS.contains((Character.toString(input.charAt(pos))))||Lexeme.VALIDNUMBERS.contains((Character.toString(input.charAt(pos)))))){
                     pos++;
                 }
                 String buf=input.substring(position,pos);
