@@ -12,5 +12,5 @@ public enum  Token {
         }
     },
     LeftParenthesis,RightParenthesis,EndStatement,
-    Assign
+    EQUAL, Assign
 }

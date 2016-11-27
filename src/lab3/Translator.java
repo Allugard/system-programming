@@ -2,14 +2,25 @@ package lab3;
 
 import lab4.Exception.*;
 
+import java.util.Map;
+
 /**
  * Created by 111 on 01.11.2016.
  */
 public class Translator {
     Table table=new Table();
     String message="";
+    LexNode parentNode;
     public Translator() {
 
+    }
+
+    public Table getTable() {
+        return table;
+    }
+
+    public void setTable(Table table) {
+        this.table = table;
     }
 
     public void lexicalAnalysis(String input){
@@ -86,7 +97,7 @@ public class Translator {
             }
         }
     }
-    public void syntaxAnalysis()  {
+    public void syntaxAnalysisStatement(Table table)  {
         boolean successfully=true;
         if(table.checkUndefinedOprerator()){
             try{
@@ -151,4 +162,90 @@ public class Translator {
         System.out.println(message);
     }
 
+    public void syntaxAnalysis(Table table) {
+       // boolean end=true;
+        if (table.isSimpleExpression()){
+            syntaxAnalysisStatement(table);
+         //   end=false;
+            return;
+        }
+        int i=0;
+        LexNode buf=table.getLexNodes().get(i);
+
+        if (buf.getValue().equals("if")) {
+            int b = i;
+            while (!table.getLexNodes().get(b).getValue().equals("then")) {
+                b++;
+            }
+            Table bufTable = new Table();
+            for (int j = i + 1; j < b; j++) {
+                bufTable.add(table.getLexNodes().get(j).getToken(), table.getLexNodes().get(j).getValue());
+            }
+            if (bufTable.checkEqualStatement()) {
+                try {
+                    throw new EqualStatementException();
+                } catch (EqualStatementException e) {
+                    message += "Wrong equal expression \n";
+                }
+            }
+            int counter = 0;
+            int c = b;
+            while (c < table.getLexNodes().size() && (!table.getLexNodes().get(c).getValue().equals("else") || counter != 0)) {
+                if (table.getLexNodes().get(c).getValue().equals("begin")) {
+                    counter++;
+                }
+                if (table.getLexNodes().get(c).getValue().equals("end")) {
+                    counter--;
+                }
+                c++;
+            }
+            bufTable = new Table();
+
+            if (table.getLexNodes().get(b + 1).getValue().equals("begin") && table.getLexNodes().get(c - 2).getValue().equals("end")) {
+                for (int j = b + 2; j < c - 2; j++) {
+                    bufTable.add(table.getLexNodes().get(j).getToken(), table.getLexNodes().get(j).getValue());
+                }
+                syntaxAnalysis(bufTable);
+            } else {
+                message += "Wrong begin or End \n";
+            }
+
+            counter = 0;
+            b = c;
+            while (b < table.getLexNodes().size() && (!table.getLexNodes().get(c).getValue().equals("end") || counter != 0)) {
+                if (table.getLexNodes().get(b).getValue().equals("begin")) {
+                    counter++;
+                }
+                if (table.getLexNodes().get(b).getValue().equals("end")) {
+                    counter--;
+                }
+                b++;
+            }
+            bufTable = new Table();
+            if (table.getLexNodes().get(c + 1).getValue().equals("begin") && table.getLexNodes().get(b - 2).getValue().equals("end")) {
+                for (int j = c + 2; j < b - 2; j++) {
+                    bufTable.add(table.getLexNodes().get(j).getToken(), table.getLexNodes().get(j).getValue());
+                }
+                syntaxAnalysis(bufTable);
+            } else {
+                message += "Wrong begin or End \n";
+            }
+        }
+
+        if (buf.getValue().equals("for")) {
+            int b = i;
+            while (!table.getLexNodes().get(b).getValue().equals("do")) {
+                b++;
+            }
+            Table bufTable = new Table();
+            for (int j = i + 1; j < b; j++) {
+                bufTable.add(table.getLexNodes().get(j).getToken(), table.getLexNodes().get(j).getValue());
+            }
+        }
+
+
+
+
+
+    }
 }

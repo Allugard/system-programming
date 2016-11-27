@@ -1,17 +1,17 @@
-package lab4;
+package lab5;
 
 import lab3.Translator;
 
 /**
- * Created by 111 on 14.11.2016.
+ * Created by 111 on 27.11.2016.
  */
 public class Main {
     public static void main(String[] args)  {
-        String input="b:=(2*a+c)*a;";
+        String input="if (a>b) then begin  a:=b; end; else begin a:=b; end;";
         Translator translator=new Translator();
         translator.lexicalAnalysis(input);
         translator.printTable();
-        translator.syntaxAnalysisStatement(translator.getTable());
+        translator.syntaxAnalysis(translator.getTable());
         translator.printMessage();
 
     }

@@ -6,7 +6,7 @@ package lab3;
 public class Lexeme {
     public static final String SEPARATOR=";()[]";
     public static final String [] OPERATORS={"+","-","*","/","=",":=","<>","<",">"};
-    public static final String [] STATEMENTS={"if","then","else","while"};
+    public static final String [] STATEMENTS={"if","then","else","while","for","to","end","begin","do"};
     public static final String VALIDSYMBOLS="abcdefghijklmnopqrstyuvwxzABCDEFGHIJKLMNOPQRSTYUVWXZ";
     public static final String VALIDNUMBERS="1234567890";
 

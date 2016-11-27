@@ -26,7 +26,14 @@ public class LexNode {
             case OPERATOR: switch (value){
                 case ":=":subToken=Token.Assign;
                     break;
+                case "<":subToken=Token.EQUAL;
+                    break;
+                case ">":subToken=Token.EQUAL;
+                    break;
+                case "=":subToken=Token.EQUAL;
+                    break;
             }
+
         }
     }
 

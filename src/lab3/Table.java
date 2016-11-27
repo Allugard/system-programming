@@ -94,4 +94,26 @@ public class Table {
 
         return bool;
     }
+
+    public boolean checkEqualStatement() {
+        boolean bool=true;
+        if((lexNodes.get(1).getToken()==Token.CONSTANT||lexNodes.get(1).getToken()==Token.VARIABLE)&&
+                (lexNodes.get(3).getToken()==Token.CONSTANT||lexNodes.get(3).getToken()==Token.VARIABLE)&&
+                (lexNodes.get(2).getSubToken()==Token.EQUAL)&&lexNodes.get(0).getSubToken()==Token.LeftParenthesis&&
+                lexNodes.get(4).getSubToken()==Token.RightParenthesis){
+            bool=false;
+        }
+        return bool;
+    }
+
+    public boolean isSimpleExpression() {
+        boolean bool=true;
+        for (LexNode lexNode:lexNodes) {
+            if (lexNode.getValue().equals("for")||lexNode.getValue().equals("if")){
+                bool=false;
+                break;
+            }
+        }
+        return bool;
+    }
 }
