@@ -212,7 +212,7 @@ public class Translator {
 
             counter = 0;
             b = c;
-            while (b < table.getLexNodes().size() && (!table.getLexNodes().get(c).getValue().equals("end") || counter != 0)) {
+            while (b < table.getLexNodes().size() && (!table.getLexNodes().get(b).getValue().equals("end") || counter != 0)) {
                 if (table.getLexNodes().get(b).getValue().equals("begin")) {
                     counter++;
                 }
@@ -238,9 +238,41 @@ public class Translator {
                 b++;
             }
             Table bufTable = new Table();
-            for (int j = i + 1; j < b; j++) {
+            for (int j = i + 1; j <= b; j++) {
                 bufTable.add(table.getLexNodes().get(j).getToken(), table.getLexNodes().get(j).getValue());
             }
+
+            if (bufTable.incorrectForCycle()) {
+                try {
+                    throw new EqualStatementException();
+                } catch (EqualStatementException e) {
+                    message += "Wrong cycle  \n";
+                }
+            }
+
+            int counter = 0;
+            int c = b;
+            while (c < table.getLexNodes().size() && (!table.getLexNodes().get(c).getValue().equals("end") || counter != 0)) {
+                if (table.getLexNodes().get(c).getValue().equals("begin")) {
+                    counter++;
+                }
+                if (table.getLexNodes().get(c).getValue().equals("end")) {
+                    counter--;
+                }
+                c++;
+            }
+            bufTable = new Table();
+
+            if (table.getLexNodes().get(b + 1).getValue().equals("begin") && table.getLexNodes().get(c - 2).getValue().equals("end")) {
+                for (int j = b + 2; j < c - 2; j++) {
+                    bufTable.add(table.getLexNodes().get(j).getToken(), table.getLexNodes().get(j).getValue());
+                }
+                syntaxAnalysis(bufTable);
+            } else {
+                message += "Wrong begin or End \n";
+            }
+
+
         }
 
 

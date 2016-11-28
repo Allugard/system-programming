@@ -116,4 +116,15 @@ public class Table {
         }
         return bool;
     }
+
+    public boolean incorrectForCycle() {
+        boolean bool=true;
+        if(lexNodes.get(0).getToken()==Token.VARIABLE&&lexNodes.get(1).getSubToken()==Token.Assign&&
+                (lexNodes.get(2).getToken()==Token.VARIABLE||lexNodes.get(2).getToken()==Token.CONSTANT)&&
+                lexNodes.get(3).getValue().equals("to")&&lexNodes.get(5).getValue().equals("do")&&
+                (lexNodes.get(4).getToken()==Token.VARIABLE||lexNodes.get(4).getToken()==Token.CONSTANT)){
+            bool=false;
+        }
+        return bool;
+    }
 }
