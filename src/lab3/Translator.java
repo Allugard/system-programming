@@ -1,6 +1,8 @@
 package lab3;
 
 import lab4.Exception.*;
+import lab5.Statement;
+import lab5.StatementNode;
 
 import java.util.Map;
 
@@ -10,9 +12,13 @@ import java.util.Map;
 public class Translator {
     Table table=new Table();
     String message="";
-    LexNode parentNode;
+    StatementNode parentNode=new StatementNode(Statement.Program);
     public Translator() {
 
+    }
+
+    public StatementNode getParentNode() {
+        return parentNode;
     }
 
     public Table getTable() {
@@ -162,17 +168,19 @@ public class Translator {
         System.out.println(message);
     }
 
-    public void syntaxAnalysis(Table table) {
-       // boolean end=true;
+    public void syntaxAnalysis(Table table, StatementNode statementNode) {
         if (table.isSimpleExpression()){
             syntaxAnalysisStatement(table);
-         //   end=false;
+            StatementNode statementNodeExp=new StatementNode(Statement.Expression);
+            statementNode.setLeftStatementNode(statementNodeExp);
             return;
         }
         int i=0;
         LexNode buf=table.getLexNodes().get(i);
 
         if (buf.getValue().equals("if")) {
+            StatementNode statementNodeIf=new StatementNode(Statement.IfNode);
+            statementNode.setLeftStatementNode(statementNodeIf);
             int b = i;
             while (!table.getLexNodes().get(b).getValue().equals("then")) {
                 b++;
@@ -182,12 +190,10 @@ public class Translator {
                 bufTable.add(table.getLexNodes().get(j).getToken(), table.getLexNodes().get(j).getValue());
             }
             if (bufTable.checkEqualStatement()) {
-                try {
-                    throw new EqualStatementException();
-                } catch (EqualStatementException e) {
                     message += "Wrong equal expression \n";
-                }
             }
+            StatementNode boolStatement = new StatementNode(Statement.BoolExpression);
+            statementNodeIf.setLeftStatementNode(boolStatement);
             int counter = 0;
             int c = b;
             while (c < table.getLexNodes().size() && (!table.getLexNodes().get(c).getValue().equals("else") || counter != 0)) {
@@ -205,7 +211,9 @@ public class Translator {
                 for (int j = b + 2; j < c - 2; j++) {
                     bufTable.add(table.getLexNodes().get(j).getToken(), table.getLexNodes().get(j).getValue());
                 }
-                syntaxAnalysis(bufTable);
+                StatementNode statementNodeThen=new StatementNode(Statement.ThenNode);
+                boolStatement.setLeftStatementNode(statementNodeThen);
+                syntaxAnalysis(bufTable,statementNodeThen);
             } else {
                 message += "Wrong begin or End \n";
             }
@@ -226,13 +234,19 @@ public class Translator {
                 for (int j = c + 2; j < b - 2; j++) {
                     bufTable.add(table.getLexNodes().get(j).getToken(), table.getLexNodes().get(j).getValue());
                 }
-                syntaxAnalysis(bufTable);
+                StatementNode statementNodeElse=new StatementNode(Statement.ElseNode);
+                boolStatement.setRightStatementNode(statementNodeElse);
+                syntaxAnalysis(bufTable,statementNodeElse);
+
+                syntaxAnalysis(bufTable,statementNodeElse);
             } else {
                 message += "Wrong begin or End \n";
             }
         }
 
         if (buf.getValue().equals("for")) {
+            StatementNode statementNodeFor=new StatementNode(Statement.ForNode);
+            statementNode.setLeftStatementNode(statementNodeFor);
             int b = i;
             while (!table.getLexNodes().get(b).getValue().equals("do")) {
                 b++;
@@ -267,17 +281,21 @@ public class Translator {
                 for (int j = b + 2; j < c - 2; j++) {
                     bufTable.add(table.getLexNodes().get(j).getToken(), table.getLexNodes().get(j).getValue());
                 }
-                syntaxAnalysis(bufTable);
+                syntaxAnalysis(bufTable,statementNodeFor);
             } else {
                 message += "Wrong begin or End \n";
             }
-
-
         }
+    }
 
-
-
-
-
+    public void printSyntaxTree(StatementNode statementNode, String s) {
+        System.out.println(s+statementNode);
+        s+="  ";
+        if (statementNode.getLeftStatementNode()!=null){
+            printSyntaxTree(statementNode.getLeftStatementNode(),s);
+        }
+        if (statementNode.getRightStatementNode()!=null){
+            printSyntaxTree(statementNode.getRightStatementNode(),s);
+        }
     }
 }
