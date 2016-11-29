@@ -189,8 +189,13 @@ public class Translator {
             for (int j = i + 1; j < b; j++) {
                 bufTable.add(table.getLexNodes().get(j).getToken(), table.getLexNodes().get(j).getValue());
             }
-            if (bufTable.checkEqualStatement()) {
-                message += "Wrong equal expression \n";
+            if (!bufTable.checkEqualStatement()) {
+                try {
+                    throw new EqualStatementException();
+                } catch (EqualStatementException e) {
+                    message += "Wrong equal statement  \n";
+                }
+                return;
             }
             StatementNode boolStatement = new StatementNode(Statement.BoolExpression);
             statementNodeIf.setLeftStatementNode(boolStatement);
@@ -264,6 +269,7 @@ public class Translator {
                 } catch (EqualStatementException e) {
                     message += "Wrong cycle  \n";
                 }
+                return;
             }
 
             int counter = 0;

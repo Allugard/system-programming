@@ -97,10 +97,14 @@ public class Table {
 
     public boolean checkEqualStatement() {
         boolean bool=true;
-        if((lexNodes.get(1).getToken()==Token.CONSTANT||lexNodes.get(1).getToken()==Token.VARIABLE)&&
-                (lexNodes.get(3).getToken()==Token.CONSTANT||lexNodes.get(3).getToken()==Token.VARIABLE)&&
-                (lexNodes.get(2).getSubToken()==Token.EQUAL)&&lexNodes.get(0).getSubToken()==Token.LeftParenthesis&&
-                lexNodes.get(4).getSubToken()==Token.RightParenthesis){
+        if(lexNodes.size()==5) {
+            if ((lexNodes.get(1).getToken() == Token.CONSTANT || lexNodes.get(1).getToken() == Token.VARIABLE) &&
+                    (lexNodes.get(3).getToken() == Token.CONSTANT || lexNodes.get(3).getToken() == Token.VARIABLE) &&
+                    (lexNodes.get(2).getSubToken() == Token.EQUAL) && lexNodes.get(0).getSubToken() == Token.LeftParenthesis &&
+                    lexNodes.get(4).getSubToken() == Token.RightParenthesis) {
+                bool = false;
+            }
+        }else {
             bool=false;
         }
         return bool;
@@ -119,10 +123,14 @@ public class Table {
 
     public boolean incorrectForCycle() {
         boolean bool=true;
-        if(lexNodes.get(0).getToken()==Token.VARIABLE&&lexNodes.get(1).getSubToken()==Token.Assign&&
-                (lexNodes.get(2).getToken()==Token.VARIABLE||lexNodes.get(2).getToken()==Token.CONSTANT)&&
-                lexNodes.get(3).getValue().equals("to")&&lexNodes.get(5).getValue().equals("do")&&
-                (lexNodes.get(4).getToken()==Token.VARIABLE||lexNodes.get(4).getToken()==Token.CONSTANT)){
+        if (lexNodes.size()==6) {
+            if (lexNodes.get(0).getToken() == Token.VARIABLE && lexNodes.get(1).getSubToken() == Token.Assign &&
+                    (lexNodes.get(2).getToken() == Token.VARIABLE || lexNodes.get(2).getToken() == Token.CONSTANT) &&
+                    lexNodes.get(3).getValue().equals("to") && lexNodes.get(5).getValue().equals("do") &&
+                    (lexNodes.get(4).getToken() == Token.VARIABLE || lexNodes.get(4).getToken() == Token.CONSTANT)) {
+                bool = false;
+            }
+        }else {
             bool=false;
         }
         return bool;
