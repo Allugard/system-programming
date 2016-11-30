@@ -102,6 +102,7 @@ public class Table {
                     (lexNodes.get(3).getToken() == Token.CONSTANT || lexNodes.get(3).getToken() == Token.VARIABLE) &&
                     (lexNodes.get(2).getSubToken() == Token.EQUAL) && lexNodes.get(0).getSubToken() == Token.LeftParenthesis &&
                     lexNodes.get(4).getSubToken() == Token.RightParenthesis) {
+            }else {
                 bool = false;
             }
         }else {
