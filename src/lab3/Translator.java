@@ -1,10 +1,8 @@
 package lab3;
 
 import lab4.Exception.*;
-import lab5.Statement;
-import lab5.StatementNode;
-
-import java.util.Map;
+import lab5.SyntaxStatement;
+import lab5.SyntaxNode;
 
 /**
  * Created by 111 on 01.11.2016.
@@ -12,12 +10,12 @@ import java.util.Map;
 public class Translator {
     Table table=new Table();
     String message="";
-    StatementNode parentNode=new StatementNode(Statement.Program);
+    SyntaxNode parentNode=new SyntaxNode(SyntaxStatement.Program);
     public Translator() {
 
     }
 
-    public StatementNode getParentNode() {
+    public SyntaxNode getParentNode() {
         return parentNode;
     }
 
@@ -168,19 +166,19 @@ public class Translator {
         System.out.println(message);
     }
 
-    public void syntaxAnalysis(Table table, StatementNode statementNode) {
+    public void syntaxAnalysis(Table table, SyntaxNode syntaxNode) {
         if (table.isSimpleExpression()){
             syntaxAnalysisStatement(table);
-            StatementNode statementNodeExp=new StatementNode(Statement.Expression);
-            statementNode.setLeftStatementNode(statementNodeExp);
+            SyntaxNode syntaxNodeExp =new SyntaxNode(SyntaxStatement.Expression);
+            syntaxNode.setLeftSyntaxNode(syntaxNodeExp);
             return;
         }
         int i=0;
         LexNode buf=table.getLexNodes().get(i);
 
         if (buf.getValue().equals("if")) {
-            StatementNode statementNodeIf = new StatementNode(Statement.IfNode);
-            statementNode.setLeftStatementNode(statementNodeIf);
+            SyntaxNode syntaxNodeIf = new SyntaxNode(SyntaxStatement.If);
+            syntaxNode.setLeftSyntaxNode(syntaxNodeIf);
             int b = i;
             while (!table.getLexNodes().get(b).getValue().equals("then")) {
                 b++;
@@ -197,8 +195,8 @@ public class Translator {
                 }
                 return;
             }
-            StatementNode boolStatement = new StatementNode(Statement.BoolExpression);
-            statementNodeIf.setLeftStatementNode(boolStatement);
+            SyntaxNode boolStatement = new SyntaxNode(SyntaxStatement.BoolExpression);
+            syntaxNodeIf.setLeftSyntaxNode(boolStatement);
             int counter = 0;
             int c = b;
             while (c < table.getLexNodes().size() && (!table.getLexNodes().get(c).getValue().equals("else") || counter != 0)) {
@@ -216,9 +214,9 @@ public class Translator {
                 for (int j = b + 2; j < c - 2; j++) {
                     bufTable.add(table.getLexNodes().get(j).getToken(), table.getLexNodes().get(j).getValue());
                 }
-                StatementNode statementNodeThen = new StatementNode(Statement.ThenNode);
-                boolStatement.setLeftStatementNode(statementNodeThen);
-                syntaxAnalysis(bufTable, statementNodeThen);
+                SyntaxNode syntaxNodeThen = new SyntaxNode(SyntaxStatement.Then);
+                boolStatement.setLeftSyntaxNode(syntaxNodeThen);
+                syntaxAnalysis(bufTable, syntaxNodeThen);
             } else {
                 message += "Wrong begin or End \n";
             }
@@ -235,16 +233,17 @@ public class Translator {
                 b++;
             }
             bufTable = new Table();
-            if (table.getLexNodes().size() < c){
+            //chage equal operate
+            if (table.getLexNodes().size() < b){
                 if (table.getLexNodes().get(c).getValue().equals("else") && table.getLexNodes().get(c + 1).getValue().equals("begin") && table.getLexNodes().get(b - 2).getValue().equals("end")) {
                     for (int j = c + 2; j < b - 2; j++) {
                         bufTable.add(table.getLexNodes().get(j).getToken(), table.getLexNodes().get(j).getValue());
                     }
-                    StatementNode statementNodeElse = new StatementNode(Statement.ElseNode);
-                    boolStatement.setRightStatementNode(statementNodeElse);
-                    syntaxAnalysis(bufTable, statementNodeElse);
+                    SyntaxNode syntaxNodeElse = new SyntaxNode(SyntaxStatement.Else);
+                    boolStatement.setRightSyntaxNode(syntaxNodeElse);
+                    syntaxAnalysis(bufTable, syntaxNodeElse);
 
-                    syntaxAnalysis(bufTable, statementNodeElse);
+                    syntaxAnalysis(bufTable, syntaxNodeElse);
                 } else {
                     message += "Wrong begin or End \n";
                 }
@@ -252,8 +251,8 @@ public class Translator {
         }
 
         if (buf.getValue().equals("for")) {
-            StatementNode statementNodeFor=new StatementNode(Statement.ForNode);
-            statementNode.setLeftStatementNode(statementNodeFor);
+            SyntaxNode syntaxNodeFor =new SyntaxNode(SyntaxStatement.For);
+            syntaxNode.setLeftSyntaxNode(syntaxNodeFor);
             int b = i;
             while (!table.getLexNodes().get(b).getValue().equals("do")) {
                 b++;
@@ -289,21 +288,21 @@ public class Translator {
                 for (int j = b + 2; j < c - 2; j++) {
                     bufTable.add(table.getLexNodes().get(j).getToken(), table.getLexNodes().get(j).getValue());
                 }
-                syntaxAnalysis(bufTable,statementNodeFor);
+                syntaxAnalysis(bufTable, syntaxNodeFor);
             } else {
                 message += "Wrong begin or End \n";
             }
         }
     }
 
-    public void printSyntaxTree(StatementNode statementNode, String s) {
-        System.out.println(s+statementNode);
+    public void printSyntaxTree(SyntaxNode syntaxNode, String s) {
+        System.out.println(s+ syntaxNode);
         s+="  ";
-        if (statementNode.getLeftStatementNode()!=null){
-            printSyntaxTree(statementNode.getLeftStatementNode(),s);
+        if (syntaxNode.getLeftSyntaxNode()!=null){
+            printSyntaxTree(syntaxNode.getLeftSyntaxNode(),s);
         }
-        if (statementNode.getRightStatementNode()!=null){
-            printSyntaxTree(statementNode.getRightStatementNode(),s);
+        if (syntaxNode.getRightSyntaxNode()!=null){
+            printSyntaxTree(syntaxNode.getRightSyntaxNode(),s);
         }
     }
 }

@@ -7,9 +7,9 @@ import lab3.Translator;
  */
 public class Main {
     public static void main(String[] args)  {
-        String input="if(a<c) then begin for i:=1 to n do begin a:=b; end; end; ";
+        String input="If (a>b) then begin For i:= 1 to n do begin a:=b; end; end; ";
         Translator translator=new Translator();
-        translator.lexicalAnalysis(input);
+        translator.lexicalAnalysis(input.toLowerCase());
         translator.printTable();
         translator.syntaxAnalysis(translator.getTable(),translator.getParentNode());
         translator.printMessage();
